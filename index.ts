@@ -118,4 +118,4 @@ async function resolveModulesUntilNodeModule(
   };
 }
 
-resolveModulesUntilNodeModule(directoryPath, request).then(console.log);
+resolveModulesUntilNodeModule(directoryPath, request).then(treeNode => console.log(JSON.stringify(treeNode, null, '\t')));
