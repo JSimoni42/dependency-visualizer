@@ -77,11 +77,11 @@ function parseImportLiteralsFromFile(filePath: string): string[] {
 
 function removeTopDirFromPath(importPath: string): string {
   const newPathParts = [
-    `.${path.sep}`,
-    ...importPath.split(path.sep).slice(1),
+    "./",
+    ...importPath.split("/").slice(1),
   ];
 
-  return newPathParts.join(path.sep);
+  return newPathParts.join("/");
 }
 
 async function resolveModulesUntilNodeModule(
