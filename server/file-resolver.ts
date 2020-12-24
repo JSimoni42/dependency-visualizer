@@ -1,7 +1,6 @@
 import fs from "fs";
 import { CachedInputFileSystem, ResolverFactory } from "enhanced-resolve";
 import { parse } from "recast";
-import path from "path";
 
 interface ASTNode {
   type: string;
