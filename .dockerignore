@@ -1,0 +1,21 @@
+# Node Modules 
+#   These will all get downloaded during image build
+node_modules
+yarn.lock
+
+# NextJS-related stuff
+#   These will get rebuilt during image build
+next-env.d.ts
+.next
+
+# Git 
+.gitignore
+.git
+
+# Test files
+#   Tests should be run before image build
+test
+
+# Docker-related stuff
+Dockerfile
+.dockerignore
