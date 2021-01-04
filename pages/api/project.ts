@@ -1,28 +1,24 @@
 import { IncomingMessage, ServerResponse } from "http"
 import Busboy from 'busboy';
 
+import * as ZipProcessor from '@ts/zipProcessor';
+
 export const config = {
     api: {
         bodyParser: false,
     },
 };
 
-export default async function handler(req: IncomingMessage, res: ServerResponse) {
+export default function handler(req: IncomingMessage, res: ServerResponse) {
     const busboy = new Busboy({
         headers: req.headers
     });
 
     res.writeProcessing();
 
-    busboy.on('file', (fieldname, file, filename) => {
-        let rawFile = '';
-        file.on('data', (chunk) => { 
-            rawFile += chunk; 
-        });
-        file.on('end', () => {
-            console.log(`${filename} finished!`);
-            console.log(rawFile);
-        });
+    let fileName = '';
+    busboy.on('file', async (fieldname, fileStream) => {
+        fileName = await ZipProcessor.unzipProj(fileStream);
     });
 
     busboy.on('finish', () => {
