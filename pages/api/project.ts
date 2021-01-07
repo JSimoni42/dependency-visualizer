@@ -10,25 +10,31 @@ export const config = {
 };
 
 export default function handler(req: IncomingMessage, res: ServerResponse) {
-    const busboy = new Busboy({
-        headers: req.headers
-    });
-
-    res.writeProcessing();
-
-    let fileName = '';
-    busboy.on('file', async (fieldname, fileStream) => {
-        fileName = await ZipProcessor.unzipProj(fileStream);
-    });
-
-    busboy.on('finish', () => {
-        console.log('done processing form');
-        res.writeHead(303, {
-            Connection: 'close',
-            Location: '/'
+    if (req.method === 'POST') {
+        const busboy = new Busboy({
+            headers: req.headers
         });
-        res.end();
-    });
 
-    req.pipe(busboy);
+        res.writeProcessing();
+
+        let uuidPromise = Promise.resolve("");
+        busboy.on('file', (fieldname, fileStream) => {
+            uuidPromise = ZipProcessor.saveProjectZip(fileStream);
+        });
+
+        busboy.on('finish', async () => {
+            const uuid = await uuidPromise;
+
+            res.writeHead(303, {
+                Connection: 'close',
+                Location: `/project/${uuid}`
+            });
+            res.end();
+        });
+
+        req.pipe(busboy);
+    } else {
+        res.statusCode = 400;
+        res.end();
+    }
 }

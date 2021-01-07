@@ -1,16 +1,27 @@
-import { createUnzip } from 'zlib';
-import { createWriteStream } from 'fs';
+import { createWriteStream, mkdirSync } from 'fs';
 import { promisify } from 'util';
 import { v4 } from 'uuid';
 import { pipeline } from 'stream';
+import extractZip from 'extract-zip';
 
 const pipe = promisify(pipeline);
 
-export async function unzipProj(zipFileStream: NodeJS.ReadableStream): Promise<string> {
-    const unzip = createUnzip();
-    const fileName = `/tmp/${v4()}`;
-    const writeStream = createWriteStream(fileName);
-    await pipe(zipFileStream, unzip, writeStream)
+export async function saveProjectZip(zipInputStream: NodeJS.ReadableStream): Promise<string> {
+    const uuid = v4();
+    const basePath = `/tmp/${uuid}`;
+    const compressedDirPath = `${basePath}/compressed`;
 
-    return fileName;
+    const compressedPath = `${compressedDirPath}/compressed.zip`;
+    mkdirSync(compressedDirPath, { recursive: true });
+
+    const compressedWriteStream = createWriteStream(compressedPath);
+
+    await pipe(zipInputStream, compressedWriteStream);
+
+    const uncompressedPath = `${basePath}/uncompressed`;
+    await extractZip(compressedPath, {
+        dir: uncompressedPath
+    });
+
+    return uuid;
 }

@@ -18,12 +18,9 @@ interface TreeNode {
   children: TreeNode[];
 }
 
-const directoryPath = "./test-proj";
-const request = "./index";
-
 const myResolver = ResolverFactory.createResolver({
   fileSystem: new CachedInputFileSystem(fs, 4000),
-  extensions: [".js"],
+  extensions: [".ts", ".js", ".tsx", ".jsx"],
 });
 
 const context = {};
@@ -51,20 +48,6 @@ function isImportNode(node: ASTNode): node is ImportDeclaration {
   return node.type === "ImportDeclaration";
 }
 
-async function resolveModulesInFile1Deep(
-  directoryPath: string,
-  request: string
-) {
-  const resolvedPath = await resolveFile(directoryPath, request);
-
-  const importRequestLiterals = parseImportLiteralsFromFile(resolvedPath);
-  const resolvedPathPromises = importRequestLiterals.map((importLiteral) => resolveFile(directoryPath, importLiteral));
-
-  const resolvedPaths = await Promise.all(resolvedPathPromises);
-
-  console.log(resolvedPaths);
-}
-
 function parseImportLiteralsFromFile(filePath: string): string[] {
   const rawFile = fs.readFileSync(filePath, "utf-8");
   const parsed = parse(rawFile);
@@ -83,7 +66,7 @@ function removeTopDirFromPath(importPath: string): string {
   return newPathParts.join("/");
 }
 
-async function resolveModulesUntilNodeModule(
+export async function resolveModulesUntilNodeModule(
   directoryPath: string,
   request: string,
 ): Promise<TreeNode> {
@@ -116,5 +99,3 @@ async function resolveModulesUntilNodeModule(
     ],
   };
 }
-
-resolveModulesUntilNodeModule(directoryPath, request).then(treeNode => console.log(JSON.stringify(treeNode, null, '\t')));

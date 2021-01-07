@@ -1,5 +1,7 @@
 FROM alpine:3.12
 
+ARG env=dev
+
 # Get yarn and install necessary dependencies
 RUN apk add --no-cache yarn nodejs
 
@@ -9,7 +11,12 @@ RUN mkdir /app
 WORKDIR /app
 ADD ./ ./
 RUN yarn install 
-RUN yarn run build
 
-# Start the app
-ENTRYPOINT yarn run start
+RUN if [[$env == prod]];\ 
+    then yarn run build;\
+    fi
+
+ENTRYPOINT if [[$env == prod]];\
+            then yarn run start;\
+            else yarn run dev;\
+            fi

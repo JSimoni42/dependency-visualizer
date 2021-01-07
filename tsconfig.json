@@ -73,7 +73,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "node_modules/enhanced-resolve/types.d.ts"
   ],
   "exclude": [
     "node_modules"
