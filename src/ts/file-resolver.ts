@@ -57,15 +57,6 @@ function parseImportLiteralsFromFile(filePath: string): string[] {
   return imports.map((importNode) => importNode.source.value);
 }
 
-function removeTopDirFromPath(importPath: string): string {
-  const newPathParts = [
-    "./",
-    ...importPath.split("/").slice(1),
-  ];
-
-  return newPathParts.join("/");
-}
-
 export async function resolveModulesUntilNodeModule(
   directoryPath: string,
   request: string,
@@ -82,12 +73,12 @@ export async function resolveModulesUntilNodeModule(
 
   const resolvedChildrenNodes = await Promise.all(
     nonNodeModulePaths.map((importPath) => {
-      return resolveModulesUntilNodeModule(directoryPath, removeTopDirFromPath(importPath));
+      return resolveModulesUntilNodeModule(directoryPath, importPath);
     })
   );
 
   return {
-    filePath: initialPath,
+    filePath: request,
     children: [
       ...resolvedChildrenNodes,
       ...nodeModulePaths.map((modulePath) => {
