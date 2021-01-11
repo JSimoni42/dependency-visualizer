@@ -1,18 +1,13 @@
-FROM alpine:3.12
+# Start from the base image, which already has an app directory and packages installed
+FROM mod-res-dev-base
 
 ARG env=dev
 
-# Get yarn and install necessary dependencies
-RUN apk add --no-cache yarn nodejs
-
-# Carve out a working directory for the application
-# and build it
-RUN mkdir /app
 WORKDIR /app
-ADD ./ ./
-RUN yarn install 
+ADD ./pages ./pages
+ADD ./src ./src
 
-RUN if [[$env == prod]];\ 
+RUN if [[$env == prod]];\
     then yarn run build;\
     fi
 
