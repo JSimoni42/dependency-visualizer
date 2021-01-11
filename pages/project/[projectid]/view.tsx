@@ -13,7 +13,8 @@ const ViewProject: React.FC = () => {
         body: JSON.stringify({
           modulePath: module_path,
           projectId: projectid
-        })
+        }),
+        headers: [['content-type', 'application/json']]
       });
 
       const json = await resp.json();

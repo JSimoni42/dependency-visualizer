@@ -65,15 +65,18 @@ export async function resolveModulesUntilNodeModule(
 
   const importRequestLiterals = parseImportLiteralsFromFile(initialPath);
   const childImportPaths = await Promise.all(
-    importRequestLiterals.map((importLiteral) => resolveFile(directoryPath, importLiteral))
+    importRequestLiterals.map(async (importLiteral) => {
+      const resolvedPath = await resolveFile(directoryPath, importLiteral)
+      return { importLiteral, resolvedPath };
+    })
   );
 
-  const nonNodeModulePaths = childImportPaths.filter((importPath) => !importPath.includes("node_modules"))
-  const nodeModulePaths = childImportPaths.filter((importPath) => importPath.includes("node_modules"));
+  const nonNodeModulePaths = childImportPaths.filter(({ resolvedPath }) => !resolvedPath.includes("node_modules"))
+  const nodeModulePaths = childImportPaths.filter(({ resolvedPath }) => resolvedPath.includes("node_modules"));
 
   const resolvedChildrenNodes = await Promise.all(
-    nonNodeModulePaths.map((importPath) => {
-      return resolveModulesUntilNodeModule(directoryPath, importPath);
+    nonNodeModulePaths.map(({ importLiteral }) => {
+      return resolveModulesUntilNodeModule(directoryPath, importLiteral);
     })
   );
 
@@ -81,9 +84,9 @@ export async function resolveModulesUntilNodeModule(
     filePath: request,
     children: [
       ...resolvedChildrenNodes,
-      ...nodeModulePaths.map((modulePath) => {
+      ...nodeModulePaths.map(({ importLiteral }) => {
         return {
-          filePath: modulePath,
+          filePath: importLiteral,
           children: [],
         };
       }),

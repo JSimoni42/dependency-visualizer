@@ -20,7 +20,7 @@ export default async function handler(req: ReqWithBody, resp: ServerResponse) {
 
     resp.statusCode = 200;
     resp.setHeader('content-type', 'application/json');
-    resp.end(rootNode);
+    resp.end(JSON.stringify(rootNode));
   } else {
     resp.statusCode = 400;
     resp.end();
