@@ -631,6 +631,31 @@ babel-plugin-transform-react-remove-prop-types@0.4.24:
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-react-remove-prop-types/-/babel-plugin-transform-react-remove-prop-types-0.4.24.tgz#f2edaf9b4c6a5fbe5c1d678bfb531078c1555f3a"
   integrity sha512-eqj0hVcJUR57/Ug2zE1Yswsw4LhuqqHhD+8v120T1cl3kjg76QwtyBrdIk4WVwK+lAhBJVYCd/v+4nc4y+8JsA==
 
+babylonjs-gltf2interface@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/babylonjs-gltf2interface/-/babylonjs-gltf2interface-4.2.0.tgz#b0ef1e11e3574cf2c6f573d0c5c34857a2a7b322"
+  integrity sha512-Fn/ThxwZWP9kEAqk+9FX9CAeF4ah/I0/8wzAZR8MQuYqlYpEfM+E/IztJ+4LoOOxQYMWNs5lgj8OXSkX0tqc4g==
+
+babylonjs-gui@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/babylonjs-gui/-/babylonjs-gui-4.2.0.tgz#f9370e922d6de5f99ebbeddd4a15972621ee1941"
+  integrity sha512-eCLlUiShKFN8QCv/Xg8OInWXon9KFfZPVHQtI5A5yUggaNgjZrq1Ul6oveIYbg9UH32oU/jUDb4iChHn5Bsgjw==
+  dependencies:
+    babylonjs "4.2.0"
+
+babylonjs-loaders@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/babylonjs-loaders/-/babylonjs-loaders-4.2.0.tgz#3d536cb72bf8650fe7f1cee12380bea3227d79c0"
+  integrity sha512-GGLvo4ibbSHMY0Kj/DBu4827NBWeDT0NOBi/UuifXltzqPJtJRi3PCEcELj4Ga8cRxkfYi/7PMKcce2zVnpLZA==
+  dependencies:
+    babylonjs "4.2.0"
+    babylonjs-gltf2interface "4.2.0"
+
+babylonjs@4.2.0, babylonjs@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/babylonjs/-/babylonjs-4.2.0.tgz#8f0d957a726de4c065904b14c2f413f455145d38"
+  integrity sha512-4hniJzWRkV0tDTTYGEHPk1lnfWn0HIw7HOvNWPK0rpUIbJooyeD9E5uVyHnslDedt0mtrA7QZu4i2Cz1DEmSsA==
+
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
@@ -2896,6 +2921,11 @@ pend@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
   integrity sha1-elfrVQpng/kRUzH89GY9XI4AelA=
+
+pepjs@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/pepjs/-/pepjs-0.5.3.tgz#dc755f03d965c20e4b1bb65e42a03a97c382cfc7"
+  integrity sha512-5yHVB9OHqKd9fr/OIsn8ss0NgThQ9buaqrEuwr9Or5YjPp6h+WTDKWZI+xZLaBGZCtODTnFtlSHNmhFsq67THg==
 
 picomatch@^2.0.4, picomatch@^2.2.1:
   version "2.2.2"

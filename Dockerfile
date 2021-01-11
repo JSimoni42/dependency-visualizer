@@ -1,5 +1,5 @@
 # Start from the base image, which already has an app directory and packages installed
-FROM mod-res-dev-base
+FROM mod-res-base
 
 ARG env=dev
 

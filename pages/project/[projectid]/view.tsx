@@ -1,8 +1,10 @@
+import { TreeNode } from '@ts/file-resolver';
+import { TreeNodeRenderer } from '@ts/TreeNodeRenderer';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 const ViewProject: React.FC = () => {
-  const [ rootNode, setRootNode ] = useState<string>('');
+  const [ rootNode, setRootNode ] = useState<TreeNode | undefined>();
   const router = useRouter();
   const { projectid, module_path } = router.query;
 
@@ -17,9 +19,8 @@ const ViewProject: React.FC = () => {
         headers: [['content-type', 'application/json']]
       });
 
-      const json = await resp.json();
-
-      setRootNode(JSON.stringify(json, null, '\t'));
+      const json = await resp.json() as TreeNode;
+      setRootNode(json);
     }
 
     fetchData();
@@ -28,7 +29,9 @@ const ViewProject: React.FC = () => {
   return (
     <article className="container">
       <pre>
-        { rootNode }
+        {
+          rootNode ? <TreeNodeRenderer treeNode={ rootNode } /> : <aside>Loading...</aside>
+        }
       </pre>
     </article>
   );

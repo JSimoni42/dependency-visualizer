@@ -13,7 +13,7 @@ interface ImportDeclaration extends ASTNode {
   };
 }
 
-interface TreeNode {
+export interface TreeNode {
   filePath: string;
   children: TreeNode[];
 }
