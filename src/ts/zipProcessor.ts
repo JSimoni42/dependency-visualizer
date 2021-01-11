@@ -6,21 +6,35 @@ import extractZip from 'extract-zip';
 
 const pipe = promisify(pipeline);
 
+function getBasePath(uuid: string): string {
+  return `/tmp/${uuid}`;
+}
+
+function getCompressedDirPath(uuid: string): string {
+  return `${getBasePath(uuid)}/compressed`;
+}
+
+function getCompressedFilePath(uuid: string): string {
+  return `${getCompressedDirPath(uuid)}/compressed.zip`;
+}
+
+export function getUncompressedBasePath(uuid: string): string {
+  return `${getBasePath(uuid)}/uncompressed`;
+}
+
 export async function saveProjectZip(zipInputStream: NodeJS.ReadableStream): Promise<string> {
     const uuid = v4();
-    const basePath = `/tmp/${uuid}`;
-    const compressedDirPath = `${basePath}/compressed`;
+    const basePath = getBasePath(uuid);
+    const compressedFilePath = getCompressedFilePath(uuid);
 
-    const compressedPath = `${compressedDirPath}/compressed.zip`;
-    mkdirSync(compressedDirPath, { recursive: true });
+    mkdirSync(getCompressedDirPath(uuid), { recursive: true });
 
-    const compressedWriteStream = createWriteStream(compressedPath);
+    const compressedWriteStream = createWriteStream(compressedFilePath);
 
     await pipe(zipInputStream, compressedWriteStream);
 
-    const uncompressedPath = `${basePath}/uncompressed`;
-    await extractZip(compressedPath, {
-        dir: uncompressedPath
+    await extractZip(compressedFilePath, {
+        dir: getUncompressedBasePath(uuid)
     });
 
     return uuid;
