@@ -5,6 +5,7 @@ import 'babylonjs-loaders';
 import { TreeNode } from "@ts/file-resolver";
 import { useCallback } from "react";
 import * as GUI from "babylonjs-gui";
+import { _BabylonLoaderRegistered } from 'babylonjs';
 
 interface Props {
   treeNode: TreeNode;
@@ -105,6 +106,8 @@ async function createScene(engine: BABYLON.Engine, canvas: HTMLCanvasElement, tr
     new BABYLON.Vector3(0, 5, -10),
     scene
   );
+
+  new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 
   camera.setTarget(BABYLON.Vector3.Zero());
   camera.attachControl(canvas, true);
