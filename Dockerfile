@@ -6,12 +6,10 @@ ARG env=dev
 WORKDIR /app
 ADD ./pages ./pages
 ADD ./src ./src
+ADD ./server.js ./server.js
 
 RUN if [[$env == prod]];\
     then yarn run build;\
     fi
 
-ENTRYPOINT if [[$env == prod]];\
-            then yarn run start;\
-            else yarn run dev;\
-            fi
+ENTRYPOINT yarn run start

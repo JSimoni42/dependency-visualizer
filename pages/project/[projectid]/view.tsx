@@ -5,11 +5,14 @@ import React, { useEffect, useState } from 'react';
 
 const ViewProject: React.FC = () => {
   const [ rootNode, setRootNode ] = useState<TreeNode | undefined>();
+  const [error, setError] = useState<string>();
   const router = useRouter();
   const { projectid, module_path } = router.query;
 
   useEffect(() => {
     async function fetchData() {
+      await import('pepjs');
+
       const resp = await fetch(`/api/project/view`, {
         method: 'POST',
         body: JSON.stringify({
@@ -19,8 +22,13 @@ const ViewProject: React.FC = () => {
         headers: [['content-type', 'application/json']]
       });
 
-      const json = await resp.json() as TreeNode;
-      setRootNode(json);
+      if (resp.status === 200) {
+        const json = await resp.json() as TreeNode;
+        setRootNode(json);
+      } else {
+        const raw = await resp.text();
+        setError(raw);
+      }
     }
 
     fetchData();
@@ -31,6 +39,9 @@ const ViewProject: React.FC = () => {
       <pre>
         {
           rootNode ? <TreeNodeRenderer treeNode={ rootNode } /> : <aside>Loading...</aside>
+        }
+        {
+          error
         }
       </pre>
     </article>

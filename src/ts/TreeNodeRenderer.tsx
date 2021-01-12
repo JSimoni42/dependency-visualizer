@@ -1,7 +1,6 @@
 // BabylonJS Dependencies
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-loaders';
-import 'pepjs';
 
 import { TreeNode } from "@ts/file-resolver";
 import { useCallback } from "react";
@@ -76,7 +75,7 @@ export function buildTree(
   const combinedLines = [ ...lines, ...[oddChildLines] ];
   if (combinedLines.length > 0) {
     const lineSystem = BABYLON.MeshBuilder.CreateLineSystem(
-      `${rootNode.name}-branches`,
+      `${rootNode.filePath}-branches`,
       {
         lines: [...lines, ...[oddChildLines]],
       },

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node server.js",
     "docker-build-base": "docker build -t mod-res-base -f dockerfileBase ./",
     "docker-dev-build": "docker build -t mod-res-dev ./",
     "docker-run": "docker run -it -p 3000:3000 --rm mod-res-dev"
