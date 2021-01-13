@@ -11,6 +11,8 @@ const ViewProject: React.FC = () => {
 
   useEffect(() => {
     async function fetchData() {
+      // Import for BabylonJS that requires the window object
+      // to be defined. It must be run on the client
       await import('pepjs');
 
       const resp = await fetch(`/api/project/view`, {

@@ -50,7 +50,9 @@ function isImportNode(node: ASTNode): node is ImportDeclaration {
 
 function parseImportLiteralsFromFile(filePath: string): string[] {
   const rawFile = fs.readFileSync(filePath, "utf-8");
-  const parsed = parse(rawFile);
+  const parsed = parse(rawFile, {
+    parser: require("recast/parsers/typescript"),
+  });
   const programBody: ASTNode[] = parsed.program.body;
   const imports = programBody.filter(isImportNode);
 
